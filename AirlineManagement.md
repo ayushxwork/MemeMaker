@@ -8,68 +8,26 @@ USE airline;
 
 ---
 
-## ACCOUNT TABLE
-
-```sql
-CREATE TABLE account (
-    Account_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Account_Type VARCHAR(50) NOT NULL
-);
-
-INSERT INTO account (Account_Type) VALUES
-('Admin'), ('Passenger'), ('Staff');
-```
-
----
-
-## ADMIN TABLE
-
-```sql
-CREATE TABLE administrator (
-    Admin_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Admin_Name VARCHAR(100),
-    Account_ID INT,
-    FOREIGN KEY (Account_ID) REFERENCES account(Account_ID)
-);
-```
-
----
-
 ## PASSENGER TABLE
 
 ```sql
 CREATE TABLE passenger (
     Passenger_ID INT AUTO_INCREMENT PRIMARY KEY,
     Passenger_Name VARCHAR(100),
-    Passport_No VARCHAR(50),
-    Account_ID INT,
-    FOREIGN KEY (Account_ID) REFERENCES account(Account_ID)
+    Passport_No VARCHAR(50)
 );
 ```
 
 ---
 
-## STAFF TABLE
+## AIRPORT TABLE
 
 ```sql
-CREATE TABLE staff (
-    Staff_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Staff_Name VARCHAR(100),
-    Role VARCHAR(50),
-    Account_ID INT,
-    FOREIGN KEY (Account_ID) REFERENCES account(Account_ID)
-);
-```
-
----
-
-## AIRCRAFT TABLE
-
-```sql
-CREATE TABLE aircraft (
-    Aircraft_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Model VARCHAR(50),
-    Total_Seats INT
+CREATE TABLE airport (
+    Airport_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Airport_Name VARCHAR(100),
+    City VARCHAR(50),
+    Country VARCHAR(50)
 );
 ```
 
@@ -81,12 +39,12 @@ CREATE TABLE aircraft (
 CREATE TABLE flight (
     Flight_ID INT AUTO_INCREMENT PRIMARY KEY,
     Flight_Number VARCHAR(20),
-    Source VARCHAR(50),
-    Destination VARCHAR(50),
+    Source_Airport_ID INT,
+    Destination_Airport_ID INT,
     Departure_Time DATETIME,
     Arrival_Time DATETIME,
-    Aircraft_ID INT,
-    FOREIGN KEY (Aircraft_ID) REFERENCES aircraft(Aircraft_ID)
+    FOREIGN KEY (Source_Airport_ID) REFERENCES airport(Airport_ID),
+    FOREIGN KEY (Destination_Airport_ID) REFERENCES airport(Airport_ID)
 );
 ```
 
@@ -104,6 +62,21 @@ CREATE TABLE booking (
     Status VARCHAR(20),
     FOREIGN KEY (Passenger_ID) REFERENCES passenger(Passenger_ID),
     FOREIGN KEY (Flight_ID) REFERENCES flight(Flight_ID)
+);
+```
+
+---
+
+## BAGGAGE TABLE
+
+```sql
+CREATE TABLE baggage (
+    Baggage_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Booking_ID INT,
+    Weight DECIMAL(5,2),
+    Baggage_Type VARCHAR(50),
+    Status VARCHAR(20),
+    FOREIGN KEY (Booking_ID) REFERENCES booking(Booking_ID)
 );
 ```
 
@@ -137,15 +110,14 @@ CREATE TABLE ticket (
 
 ---
 
-## CREW ASSIGNMENT TABLE
+## CREW TABLE
 
 ```sql
-CREATE TABLE crew_assignment (
+CREATE TABLE crew (
+    Crew_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Crew_Name VARCHAR(100),
+    Role VARCHAR(50),
     Flight_ID INT,
-    Staff_ID INT,
-    PRIMARY KEY (Flight_ID, Staff_ID),
-    FOREIGN KEY (Flight_ID) REFERENCES flight(Flight_ID),
-    FOREIGN KEY (Staff_ID) REFERENCES staff(Staff_ID)
+    FOREIGN KEY (Flight_ID) REFERENCES flight(Flight_ID)
 );
 ```
-
