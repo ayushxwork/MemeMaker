@@ -1,8 +1,7 @@
 # SQL Quries Question
 
-````md
-# ✈️ Airline Management System  
-## SQL + Practical Viva Questions
+## ✈️ Airline Management System  
+
 
 ---
 
