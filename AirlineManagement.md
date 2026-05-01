@@ -121,3 +121,92 @@ CREATE TABLE crew (
     FOREIGN KEY (Flight_ID) REFERENCES flight(Flight_ID)
 );
 ```
+
+# ✈️ Airline Management System — Sample Data Inserts
+
+## 🧑‍✈️ PASSENGER TABLE
+
+```sql
+INSERT INTO passenger (Passenger_Name, Passport_No) VALUES
+('Amit Sharma', 'IND123456'),
+('Priya Verma', 'IND654321'),
+('Rahul Singh', 'IND987654');
+```
+
+---
+
+## 🛫 AIRPORT TABLE
+
+```sql
+INSERT INTO airport (Airport_Name, City, Country) VALUES
+('Indira Gandhi International Airport', 'Delhi', 'India'),
+('Chhatrapati Shivaji Airport', 'Mumbai', 'India'),
+('Heathrow Airport', 'London', 'UK');
+```
+
+---
+
+## ✈️ FLIGHT TABLE
+
+```sql
+INSERT INTO flight (Flight_Number, Source_Airport_ID, Destination_Airport_ID, Departure_Time, Arrival_Time) VALUES
+('AI101', 1, 2, '2026-05-10 10:00:00', '2026-05-10 12:00:00'),
+('AI202', 2, 3, '2026-05-11 14:00:00', '2026-05-11 20:00:00'),
+('AI303', 1, 3, '2026-05-12 09:00:00', '2026-05-12 18:00:00');
+```
+
+---
+
+## 🎟️ BOOKING TABLE
+
+```sql
+INSERT INTO booking (Passenger_ID, Flight_ID, Seat_No, Booking_Date, Status) VALUES
+(1, 1, '12A', '2026-05-01', 'Confirmed'),
+(2, 2, '14B', '2026-05-02', 'Confirmed'),
+(3, 3, '10C', '2026-05-03', 'Pending');
+```
+
+---
+
+## 🧳 BAGGAGE TABLE
+
+```sql
+INSERT INTO baggage (Booking_ID, Weight, Baggage_Type, Status) VALUES
+(1, 15.5, 'Checked', 'Loaded'),
+(2, 10.0, 'Cabin', 'Approved'),
+(3, 20.0, 'Checked', 'Pending');
+```
+
+---
+
+## 💳 PAYMENT TABLE
+
+```sql
+INSERT INTO payment (Booking_ID, Amount, Payment_Status, Payment_Date) VALUES
+(1, 5000.00, 'Paid', '2026-05-01'),
+(2, 7500.00, 'Paid', '2026-05-02'),
+(3, 6000.00, 'Pending', '2026-05-03');
+```
+
+---
+
+## 🎫 TICKET TABLE
+
+```sql
+INSERT INTO ticket (Booking_ID, Issue_Date) VALUES
+(1, '2026-05-01'),
+(2, '2026-05-02'),
+(3, '2026-05-03');
+```
+
+---
+
+## 👨‍✈️ CREW TABLE
+
+```sql
+INSERT INTO crew (Crew_Name, Role, Flight_ID) VALUES
+('Captain Raj', 'Pilot', 1),
+('Anjali Mehta', 'Cabin Crew', 1),
+('John Smith', 'Pilot', 2);
+```
+
