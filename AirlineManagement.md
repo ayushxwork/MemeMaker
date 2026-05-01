@@ -1,6 +1,3 @@
-
-
-````
 # Airline Management System Database
 
 ## Create Database
