@@ -149,9 +149,3 @@ CREATE TABLE crew_assignment (
 );
 ```
 
-```
-
----
-
-If you want, I can also convert this into a **downloadable `.md` or `.docx` file** directly.
-```
