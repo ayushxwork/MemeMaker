@@ -1,17 +1,277 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import { TEMPLATES } from "../lib/templates";
 
+const heroSlots = [
+    { ...TEMPLATES[0], pos: "left-[3%] top-[10%] w-40 -rotate-6" },
+    { ...TEMPLATES[1], pos: "left-[1%] top-[62%] w-44 rotate-6" },
+    { ...TEMPLATES[2], pos: "right-[3%] top-[8%] w-44 rotate-3" },
+    { ...TEMPLATES[3], pos: "right-[1%] top-[60%] w-40 -rotate-3" },
+    { ...TEMPLATES[4], pos: "left-[20%] top-[4%] w-32 rotate-3" },
+    { ...TEMPLATES[5], pos: "right-[18%] top-[68%] w-32 -rotate-6" },
+];
+
+const features = [
+    {
+        title: "Edit.",
+        body: "Drop in any template or upload your own image. The canvas renders at full resolution, right in your browser.",
+    },
+    {
+        title: "Customize.",
+        body: "Drag captions into place, tune size and color, and get classic Impact-style outlined text — auto-sized to fit.",
+    },
+    {
+        title: "Download.",
+        body: "Export a PNG in one click. No account, no watermark, no upload to a server — it never leaves your device.",
+    },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="MemeMaker — Free online meme generator, no sign-up.">
+    <main>
+        <!-- Hero -->
+        <section
+            class="relative overflow-hidden px-4 pb-20 pt-16 sm:px-6 sm:pt-24"
+        >
+            <div
+                class="mesh-gradient pointer-events-none absolute inset-x-0 top-0 -z-10 h-140"
+                aria-hidden="true"
+            >
+            </div>
+
+            <!-- Scattered background meme composition (desktop only) -->
+            <div
+                class="pointer-events-none absolute inset-0 hidden lg:block"
+                aria-hidden="false"
+            >
+                {
+                    heroSlots.map((slot) => (
+                        <a
+                            href={`/edit?template=${slot.id}`}
+                            class:list={[
+                                "hero-slot group pointer-events-auto absolute block",
+                                slot.pos,
+                            ]}
+                        >
+                            <span class="relative block overflow-hidden rounded-lg shadow-level-2">
+                                <img
+                                    src={slot.src}
+                                    alt={slot.name}
+                                    width={slot.width}
+                                    height={slot.height}
+                                    class="aspect-4/3 w-full object-cover opacity-80 transition-opacity group-hover:opacity-100"
+                                    loading="eager"
+                                />
+                                <span class="absolute inset-0 flex items-center justify-center bg-ink/45 opacity-0 transition-opacity group-hover:opacity-100">
+                                    <span class="rounded-pill bg-canvas px-3 py-1.5 text-xs font-medium text-ink shadow-level-2">
+                                        Use Template
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    ))
+                }
+            </div>
+
+            <!-- Mobile horizontal scroll strip -->
+            <div
+                class="-mx-4 mb-10 flex gap-3 overflow-x-auto px-4 pb-2 lg:hidden"
+                aria-label="Meme templates"
+            >
+                {
+                    TEMPLATES.slice(0, 7).map((t) => (
+                        <a
+                            href={`/edit?template=${t.id}`}
+                            class="block shrink-0 overflow-hidden rounded-lg shadow-level-2"
+                        >
+                            <img
+                                src={t.src}
+                                alt={t.name}
+                                width={t.width}
+                                height={t.height}
+                                class="aspect-4/3 w-28 object-cover"
+                            />
+                        </a>
+                    ))
+                }
+            </div>
+
+            <div
+                class="relative z-10 mx-auto flex max-w-160 flex-col items-center text-center"
+            >
+                <span
+                    class="mb-5 inline-flex items-center rounded-full bg-canvas-soft-2 px-3 py-1 font-mono text-xs text-body shadow-level-1"
+                >
+                    free · no sign-up · no watermark
+                </span>
+
+                <h1
+                    class="text-[40px] font-semibold leading-[1.05] tracking-display-xl text-ink text-balance sm:text-[48px]"
+                >
+                    Make a meme in seconds.
+                </h1>
+
+                <p class="mt-4 text-lg leading-relaxed text-body">
+                    Pick a template or upload any image, add your captions, and
+                    download the PNG. Entirely in your browser — nothing is ever
+                    uploaded to a server.
+                </p>
+
+                <div
+                    class="mt-8 flex flex-wrap items-center justify-center gap-3"
+                >
+                    <a
+                        href="/edit"
+                        class="inline-flex h-12 items-center rounded-pill bg-primary px-6 text-base font-medium text-on-primary shadow-level-2 outline-none transition-opacity hover:opacity-85 focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2"
+                    >
+                        Start Creating
+                    </a>
+                    <a
+                        href="#templates"
+                        class="inline-flex h-12 items-center rounded-pill bg-canvas px-6 text-base font-medium text-ink shadow-level-1 transition-colors outline-none hover:bg-canvas-soft-2 focus-visible:ring-2 focus-visible:ring-link"
+                    >
+                        Browse Templates
+                    </a>
+                </div>
+
+                <!-- Upload dropzone -->
+                <div
+                    data-dropzone
+                    tabindex="0"
+                    role="button"
+                    aria-label="Upload an image to start editing"
+                    class="mt-10 flex w-full cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed border-hairline-strong bg-canvas/80 px-6 py-10 text-center shadow-level-1 outline-none transition-colors hover:border-ink hover:bg-canvas-soft-2 focus-visible:ring-2 focus-visible:ring-link"
+                >
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        class="text-mute"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 16V4M12 4L7 9M12 4L17 9M5 16v2a2 2 0 002 2h10a2 2 0 002-2v-2"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                    <p class="text-sm font-medium text-ink">
+                        Drop an image, or click to upload
+                    </p>
+                    <p class="font-mono text-xs text-mute">
+                        PNG, JPG, WEBP — processed locally
+                    </p>
+                    <input
+                        data-dropzone-input
+                        type="file"
+                        accept="image/*"
+                        class="hidden"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section
+            id="features"
+            class="border-y border-hairline bg-canvas px-4 py-20 sm:px-6"
+        >
+            <div class="mx-auto max-w-350">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    {
+                        features.map((f) => (
+                            <div class="rounded-md bg-canvas-soft p-6 shadow-level-2">
+                                <h3 class="text-xl font-semibold tracking-tight text-ink">
+                                    {f.title}
+                                </h3>
+                                <p class="mt-2 text-sm leading-relaxed text-body">
+                                    {f.body}
+                                </p>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Templates -->
+        <section id="templates" class="px-4 py-20 sm:px-6">
+            <div class="mx-auto max-w-350">
+                <div
+                    class="mb-8 flex flex-wrap items-end justify-between gap-4"
+                >
+                    <div>
+                        <p
+                            class="mb-2 font-mono text-xs uppercase tracking-wide text-mute"
+                        >
+                            Templates
+                        </p>
+                        <h2
+                            class="text-[28px] font-semibold tracking-display-lg text-ink text-balance sm:text-[32px]"
+                        >
+                            Start from a classic.
+                        </h2>
+                    </div>
+                    <button
+                        data-shuffle-btn
+                        type="button"
+                        class="inline-flex h-10 items-center gap-1.5 rounded-pill bg-canvas px-4 text-sm font-medium text-ink shadow-level-2 transition-colors hover:bg-canvas-soft-2"
+                    >
+                        <svg
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M17 3l4 4-4 4M3 7h11M17 21l4-4-4-4M3 17h11"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                        Shuffle
+                    </button>
+                </div>
+
+                <div
+                    data-template-grid
+                    class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
+                >
+                    {
+                        TEMPLATES.map((t) => (
+                            <a
+                                href={`/edit?template=${t.id}`}
+                                class="template-card group block"
+                            >
+                                <span class="relative block overflow-hidden rounded-md shadow-level-2">
+                                    <img
+                                        src={t.src}
+                                        alt={t.name}
+                                        width={t.width}
+                                        height={t.height}
+                                        class="aspect-4/3 w-full object-cover"
+                                        loading="lazy"
+                                    />
+                                    <span class="absolute inset-0 flex items-center justify-center bg-ink/0 opacity-0 transition-[background-color,opacity] group-hover:bg-ink/45 group-hover:opacity-100">
+                                        <span class="rounded-pill bg-canvas px-3 py-1.5 text-xs font-medium text-ink shadow-level-2">
+                                            Use Template
+                                        </span>
+                                    </span>
+                                </span>
+                                <p class="mt-2 truncate text-sm text-body">
+                                    {t.name}
+                                </p>
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../scripts/landing.ts"></script>
+</Layout>

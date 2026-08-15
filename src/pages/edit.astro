@@ -1,0 +1,226 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { TEMPLATES } from "../lib/templates";
+---
+
+<Layout title="Editor — MemeMaker">
+    <main class="mx-auto max-w-350 px-4 py-8 sm:px-6 sm:py-10">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
+            <!-- Canvas + controls -->
+            <div>
+                <div
+                    data-canvas-wrap
+                    class="relative mx-auto flex max-w-full items-center justify-center rounded-lg bg-canvas-soft-2 p-2 shadow-level-2 sm:p-4"
+                >
+                    <canvas
+                        data-canvas
+                        class="max-w-full rounded-md"
+                        width="900"
+                        height="675"></canvas>
+
+                    <div
+                        data-handle="top"
+                        role="slider"
+                        tabindex="0"
+                        aria-label="Top caption vertical position"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="8"
+                        class="drag-handle absolute left-0 h-11 w-full -translate-y-1/2 cursor-grab touch-none outline-none focus-visible:ring-2 focus-visible:ring-link"
+                        style="touch-action: none; top: 8%;"
+                    >
+                        <span
+                            class="mx-auto mt-5 block h-1 w-16 rounded-full bg-link/70"
+                        ></span>
+                    </div>
+
+                    <div
+                        data-handle="bottom"
+                        role="slider"
+                        tabindex="0"
+                        aria-label="Bottom caption vertical position"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="92"
+                        class="drag-handle absolute left-0 h-11 w-full -translate-y-1/2 cursor-grab touch-none outline-none focus-visible:ring-2 focus-visible:ring-link"
+                        style="touch-action: none; top: 92%;"
+                    >
+                        <span
+                            class="mx-auto mt-5 block h-1 w-16 rounded-full bg-link/70"
+                        ></span>
+                    </div>
+                </div>
+                <p class="mt-2 text-center font-mono text-xs text-mute">
+                    Drag the blue handles to reposition captions
+                </p>
+
+                <!-- Controls -->
+                <div
+                    class="mt-8 grid grid-cols-1 gap-5 rounded-lg bg-canvas p-5 shadow-level-2 sm:grid-cols-2 sm:p-6"
+                >
+                    <label
+                        class="flex flex-col gap-1.5 text-sm text-body sm:col-span-1"
+                    >
+                        Top text
+                        <input
+                            data-top-text
+                            type="text"
+                            name="top-caption"
+                            autocomplete="off"
+                            placeholder="TOP TEXT"
+                            maxlength="80"
+                            class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-sm text-ink outline-none focus:border-ink focus-visible:ring-2 focus-visible:ring-link"
+                        />
+                    </label>
+
+                    <label
+                        class="flex flex-col gap-1.5 text-sm text-body sm:col-span-1"
+                    >
+                        Bottom text
+                        <input
+                            data-bottom-text
+                            type="text"
+                            name="bottom-caption"
+                            autocomplete="off"
+                            placeholder="BOTTOM TEXT"
+                            maxlength="80"
+                            class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-sm text-ink outline-none focus:border-ink focus-visible:ring-2 focus-visible:ring-link"
+                        />
+                    </label>
+
+                    <label
+                        class="flex flex-col gap-1.5 text-sm text-body sm:col-span-2"
+                    >
+                        Text size
+                        <input
+                            data-size-slider
+                            type="range"
+                            min="5"
+                            max="16"
+                            step="0.5"
+                            value="10"
+                            class="w-full accent-ink"
+                        />
+                    </label>
+
+                    <label
+                        class="flex items-center justify-between gap-3 text-sm text-body"
+                    >
+                        Text color
+                        <input
+                            data-text-color
+                            type="color"
+                            value="#ffffff"
+                            class="h-9 w-14 cursor-pointer rounded-sm border border-hairline"
+                        />
+                    </label>
+
+                    <label
+                        class="flex items-center justify-between gap-3 text-sm text-body"
+                    >
+                        Outline color
+                        <input
+                            data-outline-color
+                            type="color"
+                            value="#000000"
+                            class="h-9 w-14 cursor-pointer rounded-sm border border-hairline"
+                        />
+                    </label>
+
+                    <div
+                        class="flex flex-wrap items-center gap-3 sm:col-span-2"
+                    >
+                        <button
+                            data-clear-text
+                            type="button"
+                            class="inline-flex h-10 items-center rounded-pill bg-canvas-soft-2 px-4 text-sm font-medium text-ink transition-colors outline-none hover:bg-hairline focus-visible:ring-2 focus-visible:ring-link"
+                        >
+                            Clear Text
+                        </button>
+                        <button
+                            data-download
+                            type="button"
+                            class="ml-auto inline-flex h-10 items-center gap-2 rounded-pill bg-primary px-5 text-sm font-medium text-on-primary shadow-level-2 transition-opacity hover:opacity-85"
+                        >
+                            <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M12 16V4M12 16l-4-4M12 16l4-4M5 20h14"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </svg>
+                            Download PNG
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="flex flex-col gap-5">
+                <div class="flex gap-2">
+                    <button
+                        data-upload-btn
+                        type="button"
+                        class="flex h-10 flex-1 items-center justify-center gap-2 rounded-pill bg-canvas px-3 text-sm font-medium text-ink shadow-level-2 transition-colors hover:bg-canvas-soft-2"
+                    >
+                        Upload Image
+                    </button>
+                    <button
+                        data-random-btn
+                        type="button"
+                        class="flex h-10 flex-1 items-center justify-center gap-2 rounded-pill bg-canvas px-3 text-sm font-medium text-ink shadow-level-2 transition-colors hover:bg-canvas-soft-2"
+                    >
+                        Random
+                    </button>
+                    <input
+                        data-sidebar-upload-input
+                        type="file"
+                        accept="image/*"
+                        class="hidden"
+                    />
+                </div>
+
+                <p class="font-mono text-xs uppercase tracking-wide text-mute">
+                    Templates
+                </p>
+
+                <div
+                    data-sidebar-grid
+                    class="grid grid-cols-4 gap-2 sm:grid-cols-3 lg:grid-cols-2"
+                >
+                    {
+                        TEMPLATES.map((t) => (
+                            <button
+                                type="button"
+                                data-template-id={t.id}
+                                data-template-src={t.src}
+                                data-template-width={t.width}
+                                data-template-height={t.height}
+                                class="template-thumb overflow-hidden rounded-md shadow-level-1 ring-2 ring-transparent transition-[box-shadow,transform] outline-none hover:shadow-level-2 focus-visible:ring-link"
+                                aria-label={`Use ${t.name} template`}
+                            >
+                                <img
+                                    src={t.src}
+                                    alt={t.name}
+                                    width={t.width}
+                                    height={t.height}
+                                    class="aspect-4/3 w-full object-cover"
+                                    loading="lazy"
+                                />
+                            </button>
+                        ))
+                    }
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="../scripts/editor.ts"></script>
+</Layout>
