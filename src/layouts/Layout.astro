@@ -6,11 +6,15 @@ import "../styles/global.css";
 interface Props {
     title: string;
     description?: string;
+    showHeader?: boolean;
+    showFooter?: boolean;
 }
 
 const {
     title,
     description = "Free online meme generator. Pick a template or upload your own image, add captions, and download instantly. No sign-up, no watermark.",
+    showHeader = true,
+    showFooter = true,
 } = Astro.props;
 ---
 
@@ -27,8 +31,8 @@ const {
         <title>{title}</title>
     </head>
     <body class="min-h-dvh bg-canvas-soft text-ink antialiased">
-        <Header />
+        {showHeader && <Header />}
         <slot />
-        <Footer />
+        {showFooter && <Footer />}
     </body>
 </html>
