@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { TEMPLATES } from "../lib/templates";
 
+<<<<<<< Updated upstream
 // 7 floating template card positions matching the reference design:
 // 1. top-left card
 // 2. upper-left/mid card
@@ -25,6 +26,45 @@ const heroSlots = [
     { ...TEMPLATES[5], pos: "right-[3%] bottom-[8%] w-40 xl:w-46 rotate-3" },
     // 7. lower-right card
     { ...TEMPLATES[6], pos: "right-[16%] bottom-[4%] w-36 xl:w-40 -rotate-6" },
+=======
+// A dense "meme wall" scatter behind the hero copy. Cycles through the full
+// template pool (wrapping around) across many more slots than templates so
+// the background reads as a packed collage rather than a handful of floating
+// cards.
+const heroSlotLayout = [
+    { pos: "left-[2%] top-[6%] w-36 -rotate-6" },
+    { pos: "left-[1%] top-[38%] w-28 rotate-3" },
+    { pos: "left-[3%] top-[66%] w-40 rotate-6" },
+    { pos: "left-[16%] top-[2%] w-28 rotate-3" },
+    { pos: "left-[14%] top-[80%] w-32 -rotate-3" },
+    { pos: "left-[26%] top-[30%] w-24 -rotate-6" },
+    { pos: "right-[2%] top-[8%] w-40 rotate-3" },
+    { pos: "right-[1%] top-[40%] w-28 -rotate-3" },
+    { pos: "right-[3%] top-[68%] w-40 -rotate-6" },
+    { pos: "right-[17%] top-[4%] w-28 -rotate-3" },
+    { pos: "right-[15%] top-[82%] w-32 rotate-3" },
+    { pos: "right-[27%] top-[32%] w-24 rotate-6" },
+];
+
+const heroSlots = heroSlotLayout.map((slot, i) => ({
+    ...TEMPLATES[i % TEMPLATES.length],
+    pos: slot.pos,
+}));
+
+const features = [
+    {
+        title: "Edit.",
+        body: "Drop in any template or upload your own image. The canvas renders at full resolution, right in your browser.",
+    },
+    {
+        title: "Customize.",
+        body: "Drag captions into place, tune size and color, and get classic Impact-style outlined text — auto-sized to fit.",
+    },
+    {
+        title: "Download.",
+        body: "Export a PNG in one click. No account, no watermark, no upload to a server — it never leaves your device.",
+    },
+>>>>>>> Stashed changes
 ];
 ---
 
